@@ -20,6 +20,8 @@ import HomeScreen from './screens/HomeScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { TaskListScreen } from './screens/TasksListScreen';
+import { BatteryMonitor } from './screens/BatteryMonitor';
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -27,7 +29,26 @@ const drawerItems = [
   { key: 'Home', label: 'Home', screen: 'Home' },
   { key: 'Profile', label: 'Profile', screen: 'ProfileScreen' },
   { key: 'Settings', label: 'Settings', screen: 'SettingsScreen' },
+  { key: 'Tasks', label: 'Tasks', screen: 'TasksListScreen' },
+  { key: 'Battery', label: 'Battery Monitor', screen: 'BatteryMonitor' },
 ];
+
+const linking: any = {
+  prefixes: ['mydemoapp://'],
+  config: {
+    initialRouteName: 'DrawerNavigator',
+    screens: {
+      DrawerNavigator: {
+        initialRouteName: 'Home',
+        screens: {
+          Home: '',
+          ProfileScreen: 'profile',
+          SettingsScreen: 'settings',
+        },
+      },
+    },
+  },
+};
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   const { state, navigation } = props;
@@ -105,6 +126,16 @@ const HomeStackNavigator = () => (
       component={SettingsScreen}
       options={{ title: 'Settings' }}
     />
+    <Stack.Screen
+      name="TasksListScreen"
+      component={TaskListScreen}
+      options={{ title: 'Tasks' }}
+    />
+    <Stack.Screen
+      name="BatteryMonitor"
+      component={BatteryMonitor}
+      options={{ title: 'Battery Monitor' }}
+    />
   </Stack.Navigator>
 );
 
@@ -124,7 +155,16 @@ const NavigationStack = () => (
 function App() {
   return (
     <GestureHandlerRootView>
-      <NavigationContainer>
+      <NavigationContainer
+        linking={linking}
+        fallback={
+          <ActivityIndicator
+            size="large"
+            color="#4f8cff"
+            style={styles.centered}
+          />
+        }
+      >
         <NavigationStack />
       </NavigationContainer>
     </GestureHandlerRootView>

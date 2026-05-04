@@ -28,8 +28,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       in: window,
       launchOptions: launchOptions
     )
+    
+    // 🔑 Force Siri to register App Shortcuts
+    Task {
+        do {
+            TaskMasterShortcuts.updateAppShortcutParameters()
+            print("✅ App Shortcuts registered with Siri")
+        }
+    }
 
     return true
+  }
+  
+  func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+    return RCTLinkingManager.application(application, open: url, options: options)
+  }
+  
+  func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+    return RCTLinkingManager.application(application, continue: userActivity, restorationHandler: restorationHandler)
   }
 }
 
