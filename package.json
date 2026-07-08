@@ -9,6 +9,14 @@
     "start": "react-native start",
     "test": "jest"
   },
+  "codegenConfig": {
+    "name": "NativeHapticModuleSpec",
+    "type": "modules",
+    "jsSrcsDir": "./src/specs",
+    "android": {
+      "javaPackageName": "com.myapp"
+    }
+  },
   "dependencies": {
     "@react-native/new-app-screen": "0.85.2",
     "@react-navigation/drawer": "^7.9.9",
